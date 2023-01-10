@@ -44,44 +44,73 @@ for _ in range(2):
     dealerCount = sum(dealerDeck)
 
 while True:
-    print(playerDeckWithFaces, end=" ")
-    if playerCount == 21:
-        print("Blackjack for Player!")
-        break
-    elif dealerCount == 21:
-        print("Blackjack for Dealer!")
-        break
-    elif playerCount > 21:
-        print("You lost!")
-        break
-    elif dealerCount > 21:
-        print("The dealer has lost!")
-        break
+    if isPlayerStanding == 0:
+        print(playerDeckWithFaces, end=" ")
+        if playerCount == 21:
+            print("Blackjack for Player!")
+            break
+        elif dealerCount == 21:
+            print("Blackjack for Dealer!")
+            break
+        elif playerCount > 21:
+            print("You lost!")
+            break
+        elif dealerCount > 21:
+            print("The dealer has lost!")
+            break
 
-    elif playerCount < 21:
-        drawCard = input("draw/stand/doubledown: ")
-        if drawCard == "draw":
-            playerDeck.append(random.choice(deck))
-            playerDeckWithFaces = playerDeck
-            checkIfTenOrAce(playerDeck)
-            playerCount = sum(playerDeck)
+        elif playerCount < 21:
+            drawCard = input("draw/stand/doubledown: ")
+            if drawCard == "draw":
+                playerDeck.append(random.choice(deck))
+                playerDeckWithFaces = playerDeck
+                checkIfTenOrAce(playerDeck)
+                playerCount = sum(playerDeck)
 
+                if dealerCount <= 17:
+                    dealerChoice = random.choice(dealerOptions)
+
+                    if dealerChoice == "draw":
+                        dealerDeck.append(random.choice(deck))
+                        dealerDeckWithFaces = dealerDeck
+                        checkIfTenOrAce(dealerDeck)
+                        dealerCount = sum(dealerDeck)
+                        print(dealerDeckWithFaces)
+                    elif dealerChoice == "stand":
+                        print("Dealer is standing whilst Player is not standing")
+
+
+
+            elif drawCard == "stand":
+                isPlayerStanding = 1
+            elif drawCard == "doubledown":
+                playerDeck.append(random.choice(deck))
+                isPlayerStanding = 1
+
+    elif isPlayerStanding == 1:
             if dealerCount <= 17:
                 dealerChoice = random.choice(dealerOptions)
-
                 if dealerChoice == "draw":
                     dealerDeck.append(random.choice(deck))
                     dealerDeckWithFaces = dealerDeck
                     checkIfTenOrAce(dealerDeck)
                     dealerCount = sum(dealerDeck)
+                    print(dealerDeckWithFaces)
                 elif dealerChoice == "stand":
-                    print("asd")
+                    print("Dealer is standing whilst player is standing")
+    
+    elif isDealerStanding == 0:
+         if dealerCount <= 17:
+                dealerChoice = random.choice(dealerOptions)
+                if dealerChoice == "draw":
+                    dealerDeck.append(random.choice(deck))
+                    dealerDeckWithFaces = dealerDeck
+                    checkIfTenOrAce(dealerDeck)
+                    dealerCount = sum(dealerDeck)
+                    print(dealerDeckWithFaces)
+                elif dealerChoice == "stand":
+                    print("Dealer is standing whilst he is standing")
 
-                
-
-        elif drawCard == "stand":
-            isPlayerStanding = 1
-            break
-        elif drawCard == "doubledown":
-            playerDeck.append(random.choice(deck))
-
+    elif isDealerStanding == 1:
+        print(playerDeckWithFaces)
+        print(dealerDeckWithFaces)
