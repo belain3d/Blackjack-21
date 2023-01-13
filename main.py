@@ -15,6 +15,22 @@ def checkIfTenOrAce(userDeck):
                 userDeck.remove(i)
                 userDeck.append(1)
 
+def whoWon(playerCount, dealerCount):
+    if dealerCount < playerCount < 21:
+        print("Player has won!")
+
+    elif playerCount < dealerCount < 21:
+        print("Dealer has won!")
+    
+    elif playerCount == dealerCount:
+        print("Equal")
+
+def checkIfOver21(playerCount, dealerCount):
+    if playerCount > 21:
+        print("Player has lost!")
+    elif dealerCount > 21:
+        print("Dealer has lost!")
+
 deck = ["Q", "J", "K", "A",
         2, 3, 4, 5, 6, 7, 8, 9, 10]
 
@@ -48,18 +64,28 @@ while True:
         print(playerDeckWithFaces, end=" ")
         if playerCount == 21:
             print("Blackjack for Player!")
+            print("Your deck:", playerDeckWithFaces)
+            print("Dealer's deck:", dealerDeckWithFaces)
             break
         elif dealerCount == 21:
             print("Blackjack for Dealer!")
+            print("Your deck:", playerDeckWithFaces)
+            print("Dealer's deck:", dealerDeckWithFaces)
             break
         elif playerCount > 21:
-            print("You lost!")
+            print("Player went over 21")
+            print("Your deck:", playerDeckWithFaces)
+            print("Dealer's deck:", dealerDeckWithFaces)
             break
         elif dealerCount > 21:
             print("The dealer has lost!")
+            print("Dealer went over 21")
+            print("Your deck:", playerDeckWithFaces)
+            print("Dealer's deck:", dealerDeckWithFaces)
             break
 
         elif playerCount < 21:
+            print(dealerDeckWithFaces)
             drawCard = input("draw/stand/doubledown: ")
             if drawCard == "draw":
                 playerDeck.append(random.choice(deck))
@@ -75,7 +101,10 @@ while True:
                         dealerDeckWithFaces = dealerDeck
                         checkIfTenOrAce(dealerDeck)
                         dealerCount = sum(dealerDeck)
-                        print(dealerDeckWithFaces)
+
+                        print("Dealer drew a card whilst player was not standing.")
+                        print("Your deck:", playerDeckWithFaces)
+                        print("Dealer's deck:", dealerDeckWithFaces)
                     elif dealerChoice == "stand":
                         print("Dealer is standing whilst Player is not standing")
 
@@ -95,10 +124,21 @@ while True:
                     dealerDeckWithFaces = dealerDeck
                     checkIfTenOrAce(dealerDeck)
                     dealerCount = sum(dealerDeck)
-                    print(dealerDeckWithFaces)
+
+                    print("Dealer drew a card whilst player was standing.")
+                    print("Your deck:", playerDeckWithFaces)
+                    print("Dealer's deck:", dealerDeckWithFaces)
+
+                    checkIfOver21(playerCount, dealerCount)
+
                 elif dealerChoice == "stand":
                     print("Dealer is standing whilst player is standing")
-    
+                    isDealerStanding = 1
+            elif dealerCount > 17:
+                checkIfOver21(playerCount, dealerCount)
+
+
+
     elif isDealerStanding == 0:
          if dealerCount <= 17:
                 dealerChoice = random.choice(dealerOptions)
@@ -107,10 +147,21 @@ while True:
                     dealerDeckWithFaces = dealerDeck
                     checkIfTenOrAce(dealerDeck)
                     dealerCount = sum(dealerDeck)
-                    print(dealerDeckWithFaces)
+
+                    print("Dealer drew a card whilst he wasnt standing.")
+                    print("Your deck:", playerDeckWithFaces)
+                    print("Dealer's deck:", dealerDeckWithFaces)
                 elif dealerChoice == "stand":
                     print("Dealer is standing whilst he is standing")
 
     elif isDealerStanding == 1:
-        print(playerDeckWithFaces)
-        print(dealerDeckWithFaces)
+        if dealerCount > 21:
+            print("Dealer Lost!")
+        elif playerCount > 21:
+            print("Player Lost!")
+        
+        elif dealerCount < playerCount < 21:
+            print("Player Won!")
+        
+        elif playerCount < dealerCount < 21:
+            print("Dealer Won!")
