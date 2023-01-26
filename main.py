@@ -59,7 +59,7 @@ for _ in range(2):
     playerCount = sum(playerDeck)
     dealerCount = sum(dealerDeck)
 
-while True:
+while isPlayerStanding == 0 or isDealerStanding == 0:
     if isPlayerStanding == 0:
         print(playerDeckWithFaces, end=" ")
         if playerCount == 21:
@@ -112,9 +112,12 @@ while True:
 
             elif drawCard == "stand":
                 isPlayerStanding = 1
+                break
+                
             elif drawCard == "doubledown":
                 playerDeck.append(random.choice(deck))
                 isPlayerStanding = 1
+                break
 
     elif isPlayerStanding == 1:
             if dealerCount <= 17:
@@ -128,12 +131,12 @@ while True:
                     print("Dealer drew a card whilst player was standing.")
                     print("Your deck:", playerDeckWithFaces)
                     print("Dealer's deck:", dealerDeckWithFaces)
-
                     checkIfOver21(playerCount, dealerCount)
 
                 elif dealerChoice == "stand":
                     print("Dealer is standing whilst player is standing")
                     isDealerStanding = 1
+                    break
             elif dealerCount > 17:
                 checkIfOver21(playerCount, dealerCount)
 
@@ -165,3 +168,12 @@ while True:
         
         elif playerCount < dealerCount < 21:
             print("Dealer Won!")
+
+if isDealerStanding == 1 and isPlayerStanding == 1:
+    if playerCount > dealerCount:
+        print("Player Won!")
+    elif playerCount < dealerCount:
+        print("Dealer Won!")
+    elif playerCount == dealerCount:
+        print("Equal!")
+
